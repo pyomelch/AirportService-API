@@ -1,14 +1,17 @@
-from rest_framework import generics
+from rest_framework import mixins, viewsets
 
 from flights.models import Crew
 from flights.serializers import CrewSerializer
 
 
-class CrewList(generics.ListCreateAPIView):
+class CrewViewSet(
+    mixins.ListModelMixin,
+    mixins.CreateModelMixin,
+    mixins.RetrieveModelMixin,
+    mixins.UpdateModelMixin,
+    mixins.DestroyModelMixin,
+    viewsets.GenericViewSet
+):
     queryset = Crew.objects.all()
     serializer_class = CrewSerializer
 
-
-class CrewDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Crew.objects.all()
-    serializer_class = CrewSerializer
