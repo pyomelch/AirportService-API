@@ -1,18 +1,14 @@
-from django.urls import path
+from django.urls import path, include
+
+from rest_framework import routers
 
 from flights.views import CrewViewSet
 
-crew_list = CrewViewSet.as_view(actions={"get": "list", "post": "create"})
-crew_detail = CrewViewSet.as_view(actions={
-   "get": "retrieve",
-   "put": "update",
-   "patch": "partial_update",
-   "delete": "destroy",
-})
+router = routers.DefaultRouter()
+router.register("crews", CrewViewSet)
 
 urlpatterns = [
-   path("crews/", crew_list, name="crew-list"),
-   path("crews/<int:pk>/", crew_detail, name="crew-detail"),
+   path("", include(router.urls))
 ]
 
 app_name = "flights"
